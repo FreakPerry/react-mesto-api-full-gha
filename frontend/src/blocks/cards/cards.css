@@ -1,0 +1,21 @@
+.cards {
+  max-width: 100%;
+  margin-top: 47px;
+  display: grid;
+  grid-template-columns: repeat(3, 282px);
+  gap: 20px 17px;
+  justify-content: center;
+}
+
+@media screen and (max-width: 879px) {
+  .cards {
+    grid-template-columns: repeat(2, 282px);
+  }
+}
+
+@media screen and (max-width: 579px) {
+  .cards {
+    margin-top: 36px;
+    grid-template-columns: repeat(1, 282px);
+  }
+}
