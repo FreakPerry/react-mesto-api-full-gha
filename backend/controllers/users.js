@@ -91,8 +91,8 @@ const getUsers = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const user = await userModel.findById(userId).orFail();
+    const { id } = req.params;
+    const user = await userModel.findById(id).orFail();
 
     return res.status(OK).send(user);
   } catch (e) {

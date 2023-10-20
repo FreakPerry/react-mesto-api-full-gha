@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 const cardModel = require('../models/card');
 
-const { OK, CREATED, BAD_REQUEST, NOT_FOUND } = require('../utils/constants');
+const {
+  OK,
+  CREATED,
+  BAD_REQUEST,
+  NOT_FOUND,
+  FORBIDDEN,
+} = require('../utils/constants');
 
 const getCards = async (req, res, next) => {
   try {
@@ -32,7 +38,7 @@ const deleteCard = async (req, res, next) => {
     const card = await cardModel.findById(cardId).orFail();
     if (card.owner.toString() !== user._id) {
       return res
-        .status(NOT_FOUND)
+        .status(FORBIDDEN)
         .send({ message: "You can't delete other people's cards" });
     }
     await cardModel.findByIdAndRemove(cardId);
