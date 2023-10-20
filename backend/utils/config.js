@@ -1,9 +1,10 @@
 require('dotenv').config();
 
-const { DATABASE_URL } = process.env;
-const { PORT } = process.env;
+const { DATABASE_URL, PORT, JWT_SECRET, NODE_ENV } = process.env;
 
 module.exports = {
   DATABASE_URL,
   PORT,
+  JWT_SECRET,
+  NODE_ENV,
 };

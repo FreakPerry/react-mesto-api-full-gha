@@ -1,9 +1,10 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/user');
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET } = require('../utils/config');
 
 const {
   OK,
