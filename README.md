@@ -10,7 +10,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 62.84.113.15
+IP 62.84.113.15
 
 Frontend https://e-tatarenko.nomoredomainsrocks.ru/
 
