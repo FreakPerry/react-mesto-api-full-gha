@@ -2,36 +2,39 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const { errors } = require('celebrate');
+const cors = require('cors');
 const appRouter = require('./routes/index');
 const { NOT_FOUND } = require('./utils/constants');
 const { login, createUser, logout } = require('./controllers/users');
 const error = require('./middlewares/error');
-const { errors } = require('celebrate');
 const authMiddleware = require('./middlewares/auth');
-const { loginValidator, registerValidator } = require('./utils/validators/userValidator');
+const {
+  loginValidator,
+  registerValidator,
+} = require('./utils/validators/userValidator');
 const { DATABASE_URL, PORT } = require('./utils/config');
-const { requestLogger, errorLogger } = require('./middlewares/logger.js');
-const cors = require('cors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 app.use(cookieParser());
 
 mongoose
   .connect(DATABASE_URL, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
   })
   .then(() => {
     console.log('Подключено к MongoDB');
   })
-  .catch(e => {
+  .catch((e) => {
     console.error('Ошибка подключения к MongoDB:', e);
   });
 
 app.use(
   cors({
     origin: 'https://e-tatarenko.nomoredomainsrocks.ru',
-    credentials: true
-  })
+    credentials: true,
+  }),
 );
 
 app.use(express.json());
@@ -48,7 +51,7 @@ app.use(appRouter);
 
 app.use('*', (req, res) => {
   res.status(NOT_FOUND).send({
-    message: 'The requested page was not found'
+    message: 'The requested page was not found',
   });
 });
 

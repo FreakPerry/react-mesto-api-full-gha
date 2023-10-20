@@ -1,13 +1,7 @@
 const mongoose = require('mongoose');
 const cardModel = require('../models/card');
 
-const {
-  OK,
-  CREATED,
-  BAD_REQUEST,
-  NOT_FOUND,
-  ITERNAL_SERVER_ERRROR
-} = require('../utils/constants');
+const { OK, CREATED, BAD_REQUEST, NOT_FOUND } = require('../utils/constants');
 
 const getCards = async (req, res, next) => {
   try {
@@ -34,10 +28,12 @@ const createCard = async (req, res, next) => {
 const deleteCard = async (req, res, next) => {
   try {
     const { cardId } = req.params;
-    const user = req.user;
+    const { user } = req;
     const card = await cardModel.findById(cardId).orFail();
     if (card.owner.toString() !== user._id) {
-      return res.status(NOT_FOUND).send({ message: "You can't delete other people's cards" });
+      return res
+        .status(NOT_FOUND)
+        .send({ message: "You can't delete other people's cards" });
     }
     await cardModel.findByIdAndRemove(cardId);
     res.status(OK).send({ message: 'card was deleted' });
@@ -60,8 +56,8 @@ const likeCard = async (req, res, next) => {
         { $addToSet: { likes: req.user._id } },
         {
           new: true,
-          runValidators: true
-        }
+          runValidators: true,
+        },
       )
       .orFail();
     return res.status(OK).send(updatedCard);
@@ -84,8 +80,8 @@ const dislikeCard = async (req, res, next) => {
         { $pull: { likes: req.user._id } },
         {
           new: true,
-          runValidators: true
-        }
+          runValidators: true,
+        },
       )
       .orFail();
     return res.status(OK).send(updatedCard);
@@ -105,5 +101,5 @@ module.exports = {
   createCard,
   deleteCard,
   likeCard,
-  dislikeCard
+  dislikeCard,
 };

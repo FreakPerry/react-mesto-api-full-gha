@@ -5,8 +5,8 @@ const CREATED = http2.constants.HTTP_STATUS_CREATED;
 const BAD_REQUEST = http2.constants.HTTP_STATUS_BAD_REQUEST;
 const NOT_FOUND = http2.constants.HTTP_STATUS_NOT_FOUND;
 const ITERNAL_SERVER_ERRROR = http2.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR;
-const UNAUTHORIZED = http2.constants.UNAUTHORIZED;
-const CONFLICT = http2.constants.CONFLICT;
+const { UNAUTHORIZED } = http2.constants;
+const { CONFLICT } = http2.constants;
 
 module.exports = {
   OK,
@@ -15,5 +15,5 @@ module.exports = {
   NOT_FOUND,
   ITERNAL_SERVER_ERRROR,
   UNAUTHORIZED,
-  CONFLICT
+  CONFLICT,
 };

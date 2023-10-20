@@ -1,4 +1,4 @@
-module.exports = (error, req, res, next) => {
+module.exports = (error, req, res) => {
   console.error(error);
   res.status(500).send({ message: 'На сервере произошла ошибка' });
 };

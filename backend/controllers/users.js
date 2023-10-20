@@ -11,7 +11,6 @@ const {
   BAD_REQUEST,
   NOT_FOUND,
   UNAUTHORIZED,
-  CONFLICT
 } = require('../utils/constants');
 
 const createUser = async (req, res, next) => {
@@ -23,7 +22,7 @@ const createUser = async (req, res, next) => {
       about,
       avatar,
       email,
-      password: hash
+      password: hash,
     });
 
     const userWithoutPassword = { ...user._doc };
@@ -32,7 +31,9 @@ const createUser = async (req, res, next) => {
     return res.status(CREATED).send(userWithoutPassword);
   } catch (e) {
     if (e.code === 11000) {
-      return res.status(409).send({ message: 'User with this email already exists' });
+      return res
+        .status(409)
+        .send({ message: 'User with this email already exists' });
     }
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(BAD_REQUEST).send({ message: e.message });
@@ -46,18 +47,20 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await userModel.checkUser(email, password);
     const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-      expiresIn: '7d'
+      expiresIn: '7d',
     });
     res
       .cookie('token', token, {
         httpOnly: true,
-        maxAge: 3600000 * 24 * 7
+        maxAge: 3600000 * 24 * 7,
       })
       .status(OK)
       .send(user);
   } catch (e) {
     if (e.message === 'Неверная почта или пароль') {
-      return res.status(UNAUTHORIZED).send({ message: 'Неверная почта или пароль' });
+      return res
+        .status(UNAUTHORIZED)
+        .send({ message: 'Неверная почта или пароль' });
     }
     next(e);
   }
@@ -107,7 +110,7 @@ const updateUser = async (req, res, updateData, next) => {
     const updatedUser = await userModel
       .findByIdAndUpdate(req.user._id, updateData, {
         new: true,
-        runValidators: true
+        runValidators: true,
       })
       .orFail();
     res.status(OK).send(updatedUser);
@@ -151,5 +154,5 @@ module.exports = {
   updateUserById,
   updateUserAvatar,
   getMe,
-  logout
+  logout,
 };
