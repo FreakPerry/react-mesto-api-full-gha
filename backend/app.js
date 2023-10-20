@@ -29,7 +29,10 @@ mongoose
 
 app.use(
   cors({
-    origin: 'http://e-tatarenko.nomoredomainsrocks.ru',
+    origin: [
+      'http://e-tatarenko.nomoredomainsrocks.ru',
+      'http://www.e-tatarenko.nomoredomainsrocks.ru'
+    ],
     credentials: true
   })
 );

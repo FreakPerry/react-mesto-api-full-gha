@@ -89,7 +89,10 @@ class Api {
 }
 
 export const api = new Api({
-  url: 'http://api.e-tatarenko.nomoredomainsrocks.ru',
+  url: [
+    'http://api.e-tatarenko.nomoredomainsrocks.ru',
+    'http://www.api.e-tatarenko.nomoredomainsrocks.ru'
+  ],
   headers: {
     'Content-Type': 'application/json'
   }
