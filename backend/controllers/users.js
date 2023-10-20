@@ -11,6 +11,7 @@ const {
   BAD_REQUEST,
   NOT_FOUND,
   UNAUTHORIZED,
+  CONFLICT,
 } = require('../utils/constants');
 
 const createUser = async (req, res, next) => {
@@ -32,7 +33,7 @@ const createUser = async (req, res, next) => {
   } catch (e) {
     if (e.code === 11000) {
       return res
-        .status(409)
+        .status(CONFLICT)
         .send({ message: 'User with this email already exists' });
     }
     if (e instanceof mongoose.Error.ValidationError) {
