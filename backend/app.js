@@ -33,7 +33,8 @@ mongoose
 
 app.use(
   cors({
-    origin: 'https://e-tatarenko.nomoredomainsrocks.ru',
+    // origin: 'https://e-tatarenko.nomoredomainsrocks.ru',
+    origin: 'http://localhost:3001',
     credentials: true,
   }),
 );

@@ -87,9 +87,9 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-const getUserById = async (req, res, next) => {
+const getUser = async (req, res, id, next) => {
   try {
-    const { id } = req.params;
+    // const { id } = req.params;
     const user = await userModel.findById(id).orFail();
 
     return res.status(OK).send(user);
@@ -102,6 +102,16 @@ const getUserById = async (req, res, next) => {
       next(e);
     }
   }
+};
+
+const getUserById = async (req, res) => {
+  const id = req.params.id;
+  getUser(req, res, id);
+};
+
+const getMe = async (req, res) => {
+  const id = req.user._id;
+  getUser(req, res, id);
 };
 
 const updateUser = async (req, res, updateData, next) => {
@@ -136,14 +146,14 @@ const updateUserAvatar = async (req, res) => {
   updateUser(req, res, updateData);
 };
 
-const getMe = async (req, res, next) => {
-  try {
-    const user = await userModel.findOne({ _id: req.user._id });
-    return res.status(OK).send(user);
-  } catch (e) {
-    return next(e);
-  }
-};
+// const getMe = async (req, res, next) => {
+//   try {
+//     const user = await userModel.findOne({ _id: req.user._id });
+//     return res.status(OK).send(user);
+//   } catch (e) {
+//     return next(e);
+//   }
+// };
 
 module.exports = {
   createUser,

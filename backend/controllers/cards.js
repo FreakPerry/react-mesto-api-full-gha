@@ -54,16 +54,16 @@ const deleteCard = async (req, res, next) => {
   }
 };
 
-const likeCard = async (req, res, next) => {
+const updateCardLikes = async (req, res, next, isAdd) => {
+  const update = isAdd
+    ? { $addToSet: { likes: req.user._id } }
+    : { $pull: { likes: req.user._id } };
+
   try {
     const updatedCard = await cardModel
-      .findByIdAndUpdate(
-        req.params.cardId,
-        { $addToSet: { likes: req.user._id } },
-        {
-          new: true,
-        },
-      )
+      .findByIdAndUpdate(req.params.cardId, update, {
+        new: true,
+      })
       .orFail();
     return res.status(OK).send(updatedCard);
   } catch (e) {
@@ -77,27 +77,12 @@ const likeCard = async (req, res, next) => {
   }
 };
 
+const likeCard = async (req, res, next) => {
+  return updateCardLikes(req, res, next, true);
+};
+
 const dislikeCard = async (req, res, next) => {
-  try {
-    const updatedCard = await cardModel
-      .findByIdAndUpdate(
-        req.params.cardId,
-        { $pull: { likes: req.user._id } },
-        {
-          new: true,
-        },
-      )
-      .orFail();
-    return res.status(OK).send(updatedCard);
-  } catch (e) {
-    if (e instanceof mongoose.Error.CastError) {
-      next(new CastomError(e.message, BAD_REQUEST));
-    } else if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      next(new CastomError('Card not found', NOT_FOUND));
-    } else {
-      next(e);
-    }
-  }
+  return updateCardLikes(req, res, next, false);
 };
 
 module.exports = {
