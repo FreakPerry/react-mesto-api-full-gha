@@ -94,7 +94,7 @@ const getUserById = async (req, res, next) => {
       next(new CastomError(e.message, BAD_REQUEST));
     }
     if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      next(new CastomError('User is not found', BAD_REQUEST));
+      next(new CastomError('User is not found', NOT_FOUND));
     }
     next(e);
   }
