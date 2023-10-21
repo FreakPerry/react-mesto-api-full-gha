@@ -9,11 +9,12 @@ const { JWT_SECRET } = require('../utils/config');
 const {
   OK,
   CREATED,
-  BAD_REQUEST,
-  NOT_FOUND,
-  UNAUTHORIZED,
   CONFLICT,
+  BAD_REQUEST,
+  UNAUTHORIZED,
+  NOT_FOUND,
 } = require('../utils/constants');
+const CastomError = require('../utils/errors/CastomError');
 
 const createUser = async (req, res, next) => {
   try {
@@ -33,12 +34,10 @@ const createUser = async (req, res, next) => {
     return res.status(CREATED).send(userWithoutPassword);
   } catch (e) {
     if (e.code === 11000) {
-      return res
-        .status(CONFLICT)
-        .send({ message: 'User with this email already exists' });
+      next(new CastomError('User with this email already exists', CONFLICT));
     }
     if (e instanceof mongoose.Error.ValidationError) {
-      return res.status(BAD_REQUEST).send({ message: e.message });
+      next(new CastomError('Invalid data entered', BAD_REQUEST));
     }
     next(e);
   }
@@ -60,9 +59,7 @@ const login = async (req, res, next) => {
       .send(user);
   } catch (e) {
     if (e.message === 'Неверная почта или пароль') {
-      return res
-        .status(UNAUTHORIZED)
-        .send({ message: 'Неверная почта или пароль' });
+      next(new CastomError('Неверная почта или пароль', UNAUTHORIZED));
     }
     next(e);
   }
@@ -79,13 +76,9 @@ const logout = async (req, res) => {
 
 const getUsers = async (req, res, next) => {
   try {
-    const users = await userModel.find({}).orFail();
-
+    const users = await userModel.find({});
     return res.status(OK).send(users);
   } catch (e) {
-    if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      return res.status(NOT_FOUND).send({ message: 'Users list is not found' });
-    }
     next(e);
   }
 };
@@ -98,10 +91,10 @@ const getUserById = async (req, res, next) => {
     return res.status(OK).send(user);
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
-      return res.status(BAD_REQUEST).send({ message: e.message });
+      next(new CastomError(e.message, BAD_REQUEST));
     }
     if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      return res.status(NOT_FOUND).send({ message: 'User is not found' });
+      next(new CastomError('User is not found', BAD_REQUEST));
     }
     next(e);
   }
@@ -118,20 +111,21 @@ const updateUser = async (req, res, updateData, next) => {
     res.status(OK).send(updatedUser);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
-      return res.status(BAD_REQUEST).send({ message: e.message });
+      next(new CastomError(e.message, BAD_REQUEST));
     }
     if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      return res.send(NOT_FOUND).send({ message: 'User is not found' });
+      next(new CastomError('User is not found', NOT_FOUND));
     }
     next(e);
   }
 };
 
-const updateUserById = async (req, res, next) => {
+const updateUserById = async (req, res) => {
   const { name, about } = req.body;
   const updateData = { name, about };
   updateUser(req, res, updateData);
 };
+
 const updateUserAvatar = async (req, res) => {
   const { avatar } = req.body;
   const updateData = { avatar };
@@ -143,7 +137,7 @@ const getMe = async (req, res, next) => {
     const user = await userModel.findOne({ _id: req.user._id });
     res.status(OK).send(user);
   } catch (e) {
-    res.status(NOT_FOUND).send({ message: 'user not found' });
+    next(new CastomError('User is not found', NOT_FOUND));
     next(e);
   }
 };

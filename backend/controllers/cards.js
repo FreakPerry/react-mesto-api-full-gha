@@ -5,9 +5,10 @@ const {
   OK,
   CREATED,
   BAD_REQUEST,
-  NOT_FOUND,
   FORBIDDEN,
+  NOT_FOUND,
 } = require('../utils/constants');
+const CastomError = require('../utils/errors/CastomError');
 
 const getCards = async (req, res, next) => {
   try {
@@ -25,7 +26,7 @@ const createCard = async (req, res, next) => {
     res.status(CREATED).send(card);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
-      return res.status(BAD_REQUEST).send({ message: e.message });
+      next(new CastomError(e.message, BAD_REQUEST));
     }
     next(e);
   }
@@ -37,18 +38,16 @@ const deleteCard = async (req, res, next) => {
     const { user } = req;
     const card = await cardModel.findById(cardId).orFail();
     if (card.owner.toString() !== user._id) {
-      return res
-        .status(FORBIDDEN)
-        .send({ message: "You can't delete other people's cards" });
+      throw new CastomError("You can't delete other people's cards", FORBIDDEN);
     }
-    await cardModel.findByIdAndRemove(cardId);
+    await cardModel.deleteOne(card);
     res.status(OK).send({ message: 'card was deleted' });
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
-      return res.status(BAD_REQUEST).send({ message: e.message });
+      next(new CastomError(e.message, BAD_REQUEST));
     }
     if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      return res.status(NOT_FOUND).send({ message: 'Card not found' });
+      next(new CastomError('Card not found', NOT_FOUND));
     }
     next(e);
   }
@@ -62,17 +61,16 @@ const likeCard = async (req, res, next) => {
         { $addToSet: { likes: req.user._id } },
         {
           new: true,
-          runValidators: true,
         },
       )
       .orFail();
     return res.status(OK).send(updatedCard);
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
-      return res.status(BAD_REQUEST).send({ message: e.message });
+      next(new CastomError(e.message, BAD_REQUEST));
     }
     if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      return res.status(NOT_FOUND).send({ message: 'Card not found' });
+      next(new CastomError('Card not found', NOT_FOUND));
     }
     next(e);
   }
@@ -86,17 +84,16 @@ const dislikeCard = async (req, res, next) => {
         { $pull: { likes: req.user._id } },
         {
           new: true,
-          runValidators: true,
         },
       )
       .orFail();
     return res.status(OK).send(updatedCard);
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
-      return res.status(BAD_REQUEST).send({ message: e.message });
+      next(new CastomError(e.message, BAD_REQUEST));
     }
     if (e instanceof mongoose.Error.DocumentNotFoundError) {
-      return res.status(NOT_FOUND).send({ message: 'Card not found' });
+      next(new CastomError('Card not found', NOT_FOUND));
     }
     next(e);
   }

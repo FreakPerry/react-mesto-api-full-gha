@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const CastomError = require('../utils/errors/CastomError');
+const { UNAUTHORIZED } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema(
   {
@@ -44,22 +46,22 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.statics.checkUser = async function (email, password) {
-  try {
-    const user = await this.findOne({ email }).select('+password');
-    if (!user) {
-      return Promise.reject(new Error('Неверная почта или пароль'));
-    }
-    const match = await bcrypt.compare(password, user.password);
+  const user = await this.findOne({ email }).select('+password');
+  if (!user) {
+    return Promise.reject(
+      new CastomError('Неверная почта или пароль', UNAUTHORIZED),
+    );
+  }
+  const match = await bcrypt.compare(password, user.password);
 
-    if (!match) {
-      return Promise.reject(new Error('Неверная почта или пароль'));
-    }
+  if (!match) {
+    return Promise.reject(
+      new CastomError('Неверная почта или пароль', UNAUTHORIZED),
+    );
+  }
 
-    if (user && match) {
-      return user;
-    }
-  } catch (e) {
-    console.log(e);
+  if (user && match) {
+    return user;
   }
 };
 

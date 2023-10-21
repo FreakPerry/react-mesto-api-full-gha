@@ -15,6 +15,7 @@ const {
 } = require('./utils/validators/userValidator');
 const { DATABASE_URL, PORT } = require('./utils/config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const CastomError = require('./utils/errors/CastomError');
 
 const app = express();
 app.use(cookieParser());
@@ -50,8 +51,12 @@ app.use(authMiddleware);
 app.use(appRouter);
 
 app.use('*', (req, res) => {
-  res.status(NOT_FOUND).send({
-    message: 'The requested page was not found',
+  const castomError = new CastomError(
+    'The requested page was not found',
+    NOT_FOUND,
+  );
+  res.status(castomError.statusCode).send({
+    message: castomError.message,
   });
 });
 
