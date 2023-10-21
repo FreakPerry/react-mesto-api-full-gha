@@ -60,9 +60,7 @@ userSchema.statics.checkUser = async function (email, password) {
     );
   }
 
-  if (user && match) {
-    return user;
-  }
+  return user;
 };
 
 module.exports = mongoose.model('user', userSchema);

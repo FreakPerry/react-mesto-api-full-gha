@@ -89,7 +89,8 @@ class Api {
 }
 
 export const api = new Api({
-  url: 'https://api.e-tatarenko.nomoredomainsrocks.ru',
+  // url: 'https://api.e-tatarenko.nomoredomainsrocks.ru',
+  url: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json'
   }

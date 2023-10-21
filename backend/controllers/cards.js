@@ -27,8 +27,9 @@ const createCard = async (req, res, next) => {
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
       next(new CastomError(e.message, BAD_REQUEST));
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 
@@ -45,11 +46,11 @@ const deleteCard = async (req, res, next) => {
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
       next(new CastomError(e.message, BAD_REQUEST));
-    }
-    if (e instanceof mongoose.Error.DocumentNotFoundError) {
+    } else if (e instanceof mongoose.Error.DocumentNotFoundError) {
       next(new CastomError('Card not found', NOT_FOUND));
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 
@@ -68,11 +69,11 @@ const likeCard = async (req, res, next) => {
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
       next(new CastomError(e.message, BAD_REQUEST));
-    }
-    if (e instanceof mongoose.Error.DocumentNotFoundError) {
+    } else if (e instanceof mongoose.Error.DocumentNotFoundError) {
       next(new CastomError('Card not found', NOT_FOUND));
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 
@@ -91,11 +92,11 @@ const dislikeCard = async (req, res, next) => {
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
       next(new CastomError(e.message, BAD_REQUEST));
-    }
-    if (e instanceof mongoose.Error.DocumentNotFoundError) {
+    } else if (e instanceof mongoose.Error.DocumentNotFoundError) {
       next(new CastomError('Card not found', NOT_FOUND));
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 

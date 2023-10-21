@@ -33,7 +33,8 @@ mongoose
 
 app.use(
   cors({
-    origin: 'https://e-tatarenko.nomoredomainsrocks.ru',
+    // origin: 'https://e-tatarenko.nomoredomainsrocks.ru',
+    origin: 'http://localhost:3001',
     credentials: true,
   }),
 );
@@ -50,15 +51,9 @@ app.post('/logout', logout);
 app.use(authMiddleware);
 app.use(appRouter);
 
-app.use('*', (req, res) => {
-  const castomError = new CastomError(
-    'The requested page was not found',
-    NOT_FOUND,
-  );
-  res.status(castomError.statusCode).send({
-    message: castomError.message,
-  });
-});
+app.use('*', (req, res, next) =>
+  next(new CastomError('The requested page was not found', NOT_FOUND)),
+);
 
 app.use(errorLogger);
 

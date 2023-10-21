@@ -10,7 +10,8 @@
       }
     ],
     "object-curly-newline": ["error", { "consistent": true }],
-    "implicit-arrow-linebreak": "off"
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": ["error", "allow"]
   },
   "env": {
     "node": true,

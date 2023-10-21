@@ -35,11 +35,11 @@ const createUser = async (req, res, next) => {
   } catch (e) {
     if (e.code === 11000) {
       next(new CastomError('User with this email already exists', CONFLICT));
-    }
-    if (e instanceof mongoose.Error.ValidationError) {
+    } else if (e instanceof mongoose.Error.ValidationError) {
       next(new CastomError('Invalid data entered', BAD_REQUEST));
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 
@@ -50,18 +50,22 @@ const login = async (req, res, next) => {
     const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
       expiresIn: '7d',
     });
+
+    const userWithoutPassword = { ...user._doc };
+    delete userWithoutPassword.password;
     res
       .cookie('token', token, {
         httpOnly: true,
         maxAge: 3600000 * 24 * 7,
       })
       .status(OK)
-      .send(user);
+      .send(userWithoutPassword);
   } catch (e) {
     if (e.message === 'Неверная почта или пароль') {
-      next(new CastomError('Неверная почта или пароль', UNAUTHORIZED));
+      next(e);
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 
@@ -92,11 +96,11 @@ const getUserById = async (req, res, next) => {
   } catch (e) {
     if (e instanceof mongoose.Error.CastError) {
       next(new CastomError(e.message, BAD_REQUEST));
-    }
-    if (e instanceof mongoose.Error.DocumentNotFoundError) {
+    } else if (e instanceof mongoose.Error.DocumentNotFoundError) {
       next(new CastomError('User is not found', NOT_FOUND));
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 
@@ -112,11 +116,11 @@ const updateUser = async (req, res, updateData, next) => {
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
       next(new CastomError(e.message, BAD_REQUEST));
-    }
-    if (e instanceof mongoose.Error.DocumentNotFoundError) {
+    } else if (e instanceof mongoose.Error.DocumentNotFoundError) {
       next(new CastomError('User is not found', NOT_FOUND));
+    } else {
+      next(e);
     }
-    next(e);
   }
 };
 
@@ -135,10 +139,9 @@ const updateUserAvatar = async (req, res) => {
 const getMe = async (req, res, next) => {
   try {
     const user = await userModel.findOne({ _id: req.user._id });
-    res.status(OK).send(user);
+    return res.status(OK).send(user);
   } catch (e) {
-    next(new CastomError('User is not found', NOT_FOUND));
-    next(e);
+    return next(e);
   }
 };
 
