@@ -5,6 +5,8 @@ export const configFormSelector = {
   inputErrorClass: 'popup__form-input_type_error'
 };
 
+export const BASE_URL = process.env.REACT_APP_API_URL;
+
 // profile info
 
 export const profileElement = document.querySelector('.profile');

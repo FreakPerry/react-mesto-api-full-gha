@@ -1,3 +1,5 @@
+import { BASE_URL } from './constants';
+
 class Api {
   constructor(config) {
     this._url = config.url;
@@ -89,7 +91,7 @@ class Api {
 }
 
 export const api = new Api({
-  url: 'https://api.e-tatarenko.nomoredomainsrocks.ru',
+  url: BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }

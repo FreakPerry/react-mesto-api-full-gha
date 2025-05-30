@@ -1,3 +1,5 @@
+import { BASE_URL } from './constants';
+
 const handleResponse = async data => {
   const res = await data.json();
   if (data.ok === true) {
@@ -6,8 +8,6 @@ const handleResponse = async data => {
     return Promise.reject(res);
   }
 };
-
-export const BASE_URL = 'https://api.e-tatarenko.nomoredomainsrocks.ru';
 
 export const register = ({ email, password }) => {
   return fetch(`${BASE_URL}/signup`, {
