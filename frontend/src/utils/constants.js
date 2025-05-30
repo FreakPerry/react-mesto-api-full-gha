@@ -9,32 +9,32 @@ export const BASE_URL = process.env.REACT_APP_API_URL;
 
 // profile info
 
-export const profileElement = document.querySelector('.profile');
-export const profileInfoElement = profileElement.querySelector('.profile__info');
-export const profileNameElement = profileInfoElement.querySelector('.profile__name');
-export const profileAboutElement = profileInfoElement.querySelector('.profile__about');
-export const profileAvatarElement = document.querySelector('.profile__avatar-img');
+// export const profileElement = document.querySelector('.profile');
+// export const profileInfoElement = profileElement.querySelector('.profile__info');
+// export const profileNameElement = profileInfoElement.querySelector('.profile__name');
+// export const profileAboutElement = profileInfoElement.querySelector('.profile__about');
+// export const profileAvatarElement = document.querySelector('.profile__avatar-img');
 
-// profile buttons
+// // profile buttons
 
-export const editProfileButton = profileInfoElement.querySelector('.profile__edit-button');
-export const addCardButton = profileElement.querySelector('.profile__add-button');
-export const avatarButton = document.querySelector('.profile__avatar');
+// export const editProfileButton = profileInfoElement.querySelector('.profile__edit-button');
+// export const addCardButton = profileElement.querySelector('.profile__add-button');
+// export const avatarButton = document.querySelector('.profile__avatar');
 
-// popups
+// // popups
 
-export const popupEdit = document.querySelector('#popup-edit-profile');
-export const popupAdd = document.querySelector('#popup-add-card');
-export const popupImage = document.querySelector('#popup-card-image');
-export const popupAvatar = document.querySelector('#popup-avatar');
-export const popupConfirm = document.querySelector('#popup-confirm');
+// export const popupEdit = document.querySelector('#popup-edit-profile');
+// export const popupAdd = document.querySelector('#popup-add-card');
+// export const popupImage = document.querySelector('#popup-card-image');
+// export const popupAvatar = document.querySelector('#popup-avatar');
+// export const popupConfirm = document.querySelector('#popup-confirm');
 
-// forms
+// // forms
 
-export const editFormElement = document.forms['editProfilePopup'];
-export const addFormElement = document.forms['addCardPopup'];
-export const avatarFormElement = document.forms['avatarPopup'];
+// export const editFormElement = document.forms['editProfilePopup'];
+// export const addFormElement = document.forms['addCardPopup'];
+// export const avatarFormElement = document.forms['avatarPopup'];
 
-// cards
+// // cards
 
-export const cardContainer = document.querySelector('.cards');
+// export const cardContainer = document.querySelector('.cards');
