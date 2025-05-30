@@ -13,7 +13,7 @@ const {
   loginValidator,
   registerValidator,
 } = require('./utils/validators/userValidator');
-const { DATABASE_URL, PORT } = require('./utils/config');
+const { DATABASE_URL, PORT, CORS_ORIGIN } = require('./utils/config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const CastomError = require('./utils/errors/CastomError');
 
@@ -33,7 +33,7 @@ mongoose
 
 app.use(
   cors({
-    origin: 'https://e-tatarenko.nomoredomainsrocks.ru',
+    origin: CORS_ORIGIN,
     credentials: true,
   }),
 );
