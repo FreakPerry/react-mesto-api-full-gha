@@ -6,8 +6,8 @@
 
 ## 🚀 Live Demo
 
-* 🖥 **Frontend**: [https://react-mesto-api-full-gha-nine.vercel.app](https://react-mesto-api-full-gha-nine.vercel.app)
-* 🔧 **Backend API**: [https://react-mesto-api-full-gha.onrender.com](https://react-mesto-api-full-gha.onrender.com)
+- 🖥 **Frontend**: [https://react-mesto-api-full-gha-nine.vercel.app](https://react-mesto-api-full-gha-nine.vercel.app)
+- 🔧 **Backend API**: [https://react-mesto-api-full-gha.onrender.com](https://react-mesto-api-full-gha.onrender.com)
 
 > ⚠️ Use Incognito mode for a clean session if issues with login occur.
 
@@ -15,7 +15,7 @@
 
 ## 🎥 Preview
 
-![Login Page](./frontend/src/images/screenshots/login.gif) ![Main Page](./frontend/src/images/screenshots/main.gif)
+![Login Page](./frontend/src/images/screenshots/Screen%20Recording%202025-05-30%20at%2015.28.15.mov.gif) ![Main Page](./frontend/src/images/screenshots/Screen%20Recording%202025-05-30%20at%2000.08.11.mov.gif)
 
 ---
 
@@ -32,14 +32,14 @@
 
 ## ✨ Features
 
-* ✅ Full user registration & login system
-* ✅ JWT authentication via secure, httpOnly cookies
-* ✅ Persistent session and protected routes
-* ✅ Full CRUD for photo cards (add, delete, like)
-* ✅ Edit profile and avatar
-* ✅ Responsive layout
-* ✅ Form validation on both client and server
-* ✅ Centralized error handling
+- ✅ Full user registration & login system
+- ✅ JWT authentication via secure, httpOnly cookies
+- ✅ Persistent session and protected routes
+- ✅ Full CRUD for photo cards (add, delete, like)
+- ✅ Edit profile and avatar
+- ✅ Responsive layout
+- ✅ Form validation on both client and server
+- ✅ Centralized error handling
 
 ---
 
@@ -47,19 +47,19 @@
 
 ### Frontend:
 
-* React 18
-* React Router DOM
-* CSS Modules
-* Webpack
+- React 18
+- React Router DOM
+- CSS Modules
+- Webpack
 
 ### Backend:
 
-* Node.js + Express
-* MongoDB + Mongoose
-* JSON Web Tokens (JWT)
-* Cookies (`httpOnly`, `SameSite=None`, `Secure`)
-* CORS with credentials
-* Celebrate + Joi validation
+- Node.js + Express
+- MongoDB + Mongoose
+- JSON Web Tokens (JWT)
+- Cookies (`httpOnly`, `SameSite=None`, `Secure`)
+- CORS with credentials
+- Celebrate + Joi validation
 
 ---
 
@@ -115,4 +115,3 @@ Built by [Елисей Татаренко (FreakPerry)](https://github.com/Freak
 > Telegram: @WLAPDLET
 
 ---
-
